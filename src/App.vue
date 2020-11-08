@@ -19,7 +19,7 @@
           >
             &plus;
           </button>
-          <a class="ml-auto mr-5" 
+          <a class="ml-auto mr-5"
             v-if="policies.length > 0"
           @click.prevent="showPolicies = !showPolicies">
             {{ showPolicies ? "Hide" : "Show" }} Policies</a
@@ -173,12 +173,12 @@ export default {
             // goes towards deductable
             let total = cost.total_cost * (cost.quantity || 1);
             let total_bill = total;
-            
+
             if (
               (policy_totals.non_copay_total > policy.out_of_pocket ||
-              person_totals. non_copay_total > policy.individual_out_of_pocket) 
+              person_totals. non_copay_total > policy.individual_out_of_pocket)
             ) {
-              
+
               total = (1 - policy.percent_after_out_of_pocket / 100) * total;
 
             } else if (
@@ -195,7 +195,7 @@ export default {
                   : person_totals. non_copay_total + total - policy.individual_out_of_pocket;
               total = (total - overage) + (overage* (1 - policy.percent_after_out_of_pocket / 100) )
 
-      
+
             } else if (
               policy_totals.non_copay_total > policy.family_deductable ||
               person_totals. non_copay_total > policy.individual_deductable
@@ -221,11 +221,10 @@ export default {
 
             policy_totals.non_copay_total += total;
             person_totals. non_copay_total += total;
-            // person_totals.non_copay_total += total;
             policy_totals.paid_by_insurance += total_bill - total
           }
         });
-       
+
         policy_totals.total_paid += person_totals. non_copay_total;
       });
 
@@ -243,6 +242,7 @@ export default {
           policy_totals.remaining_hsa = 0
         }
       }
+      
       policy.total_spent = policy_totals.total_paid;
       policy.covered_by_hsa = policy.hsa - policy_totals.remaining_hsa
       policy.paid_by_insurance = policy_totals.paid_by_insurance
