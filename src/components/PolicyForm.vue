@@ -72,7 +72,7 @@
               v-model="value.out_of_pocket"
             />
           </div>
-          
+
           <div class="form-group col-md-3">
             <label>% After Deductable</label>
             <input
@@ -130,7 +130,7 @@
                 type="checkbox"
                 v-model="value.copay_prescription_is_percent"
               />
-              <label class="form-check-label" for="gridCheck">
+              <label class="form-check-label">
                 Is Percent
               </label>
             </div>

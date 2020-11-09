@@ -8,7 +8,7 @@
         </button>
       </div>
 
-      <form @submit.prevent @input="handlePersonChange">
+      <form @submit.prevent >
         <div class="row justify-content-center">
           <div class="form-group col-md-6">
             <label>Name</label>
@@ -40,6 +40,14 @@
             </button>
           </div>
         </div>
+
+        <div class="row">
+          <a class="ml-auto mr-5"
+             v-if="value.costs && value.costs.length > 0"
+             @click.prevent="showCosts = !showCosts">
+            {{ showCosts ? "Hide" : "Show" }} Costs</a
+          >
+        </div>
       </form>
     </div>
     <ul class="list-group">
@@ -47,11 +55,11 @@
         v-for="(cost, index) in value.costs"
         :key="index"
         class="list-group-item bg-light"
+        v-show="showCosts"
       >
         <cost
           v-model="value.costs[index]"
-          @delete="(p) => removeCost(p, index)"
-          @input="(v) => updateCost(v, index)"
+          @remove="(p) => removeCost(p, index)"
         ></cost>
       </li>
     </ul>
@@ -70,41 +78,33 @@ export default {
   data() {
     return {
       defaults: {
-          costs: []
-      }
+          costs: [],
+
+      },
+      showCosts: true,
     };
   },
   created() {
-      for (let key of Object.keys(this.defaults)) {
+    for (let key of Object.keys(this.defaults)) {
       this.value[key] = this.value[key] ? this.value[key] : this.defaults[key];
     }
   },
   methods: {
     removeCost(object, index) {
-      this.costs.splice(index, 1);
+      let copy = JSON.parse(JSON.stringify(this.value));
+      copy.costs.splice(index, 1);
+      this.$emit('input', copy)
     },
     addCost() {
-        console.log('add cost')
-        let copy = JSON.parse(JSON.stringify(this.value));
-        copy.costs.push({})
-        this.$emit('input', copy)
-    },
-    updateCost(cost, index) {
-    //   let copy = JSON.parse(JSON.stringify(this.costs));
-      cost;index;
-    //   copy.costs[index] = cost;
-    //   console.log("input", this.value);
-    //   this.$emit("input", this.value);
+      let copy = JSON.parse(JSON.stringify(this.value));
+      copy.costs.unshift({})
+      this.$emit('input', copy)
     },
     copyCost(p) {
       let copy = JSON.parse(JSON.stringify(p));
       copy.name = copy.name + " (copy)";
       this.costs.push(copy);
     },
-    handlePersonChange(e) {
-        console.log(e)
-        // this.$emit('input', value)
-    }
   },
 };
 </script>
