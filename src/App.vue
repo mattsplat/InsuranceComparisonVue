@@ -93,7 +93,7 @@
                                 Actual Cost for Year: {{ policy.actual_cost }}
                             </li>
                             <li class="list-group-item">
-                                Covered by HAS: {{ policy.covered_by_hsa }}
+                                Covered by HSA: {{ policy.covered_by_hsa }}
                             </li>
                             <li class="list-group-item">
                                 Paid by Insurane: ${{ policy.paid_by_insurance.toFixed(2) }}
